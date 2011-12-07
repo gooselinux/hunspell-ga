@@ -1,0 +1,22 @@
+--- ispell-gaeilge-4.2.orig/makefile	2007-08-20 14:37:20.000000000 +0100
++++ ispell-gaeilge-4.2/makefile	2007-08-20 14:41:34.000000000 +0100
+@@ -20,13 +20,14 @@
+ 
+ SORT=/usr/bin/sort -u
+ 
+-hashtable: $(INSTALLATION).hash
++all: ga_IE.dic
+ 
+-all: gaeilge.hash gaeilgelit.hash gaeilgemor.hash
++hashtable: $(INSTALLATION).hash
+ 
+-gaeilge.hash: $(RAWWORDS) $(AFFIXFILE) $(PERSONAL)
+-	$(SORT) $(RAWWORDS) $(PERSONAL) | LC_ALL=C grep -v "[^'a-zA-ZáéíóúÁÉÍÓÚ/-]" > gaeilge.focail
+-	$(ISPELLBIN)/buildhash gaeilge.focail $(AFFIXFILE) gaeilge.hash
++ga_IE.dic: $(RAWWORDS) $(AFFIXFILE) $(PERSONAL)
++	sort $(RAWWORDS) $(PERSONAL) | LC_ALL=C grep -v "[^'a-zA-ZáéíóúÁÉÍÓÚ/-]" > gaeilge.focail
++	wc -l gaeilge.focail | cut -d ' ' -f 1 > ga_IE.dic
++	LC_ALL=ga_IE sort -f -t / --key 1,1 gaeilge.focail >> ga_IE.dic
+ #	rm -f gaeilge.focail
+ 
+ gaeilgelit.hash: $(RAWWORDS) $(LITWORDS) gaeilgelit.aff $(PERSONAL)
